@@ -12,8 +12,4 @@ export default defineConfig({
 		host: '127.0.0.1',
 		port: 5500, // Ensure the preview server uses the same host and port
 	  },
-	  build: {
-		outDir: 'dist', // Ensure this matches the output directory
-	  },
-	  base: '/',
 });
