@@ -1,6 +1,15 @@
 <script>
+    import { page } from "$app/stores"
     let message = "Welcome to the Dashboard!";
 </script>
+
+
+<nav>
+    <img
+      src={$page.data.session?.user?.image ?? "https://i.pravatar.cc/300"}
+      alt="User Avatar"
+    />
+</nav>
 
 <main>
     <h1>{message}</h1>
