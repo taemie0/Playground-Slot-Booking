@@ -1,62 +1,6 @@
-<!-- <script lang="ts">
-    import { SignIn } from "@auth/sveltekit/components"
- </script>
-  
- <div>
-   <img src="/img/logo.svg" alt="Company Logo" />
-   <SignIn provider="google" signInPage="signin" />
- </div>  -->
-
-<!-- <script lang="ts">
-  import { page } from "$app/stores"
-  import { SignIn } from "@auth/sveltekit/components"
-</script>
- 
-<header>
-  <nav>
-    <SignIn
-      options={{
-        redirectTo: $page.data.redirectTo
-          ? `/${decodeURIComponent($page.data.redirectTo).slice(1)}`
-          : `/dashboard`,
-      }}
-      className="w-full"
-    >
-      <span slot="submitButton">Sign in</span>
-    </SignIn>
-  </nav>
-</header> -->
-<!-- <script lang="ts">
-import { SignIn } from "@auth/sveltekit/components"
-</script>
-
-<div>
-<img src="/img/logo.svg" alt="Company Logo" />
-<SignIn provider="google" signInPage="signin" />
-</div> -->
-
-<!-- <script lang="ts">
-import { page } from "$app/stores"
-import { SignIn } from "@auth/sveltekit/components"
-</script>
-
-<header>
-<nav>
-<SignIn
-options={{
-redirectTo: $page.data.redirectTo
-? `/${decodeURIComponent($page.data.redirectTo).slice(1)}`
-: `/dashboard`,
-}}
-className="w-full"
->
-<span slot="submitButton">Sign in</span>
-</SignIn>
-</nav>
-</header> -->
-
 <script lang="ts">
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { SignIn } from '@auth/sveltekit/components';
 	import '../style.css'; // Import the CSS file
 
@@ -108,8 +52,8 @@ className="w-full"
 	
 		<SignIn
 			options={{
-				redirectTo: $page.data.redirectTo
-					? `/${decodeURIComponent($page.data.redirectTo).slice(1)}`
+				redirectTo: page.data.redirectTo
+					? `/${decodeURIComponent(page.data.redirectTo).slice(1)}`
 					: `/dashboard`
 			}}
 			class="w-full"

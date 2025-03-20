@@ -1,34 +1,15 @@
 <script>
-    import { page } from "$app/stores"
-    let message = "Welcome to the Dashboard!";
-    console.log($page.data);
+	import { page } from '$app/state';
 </script>
 
-
-<nav>
-    <img
-      src={$page.data.session?.user?.image ?? "https://i.pravatar.cc/300"}
-      alt="User Avatar"
-    />
-</nav>
-
-<main>
-    <h1>{message}</h1>
-    <p>This is a dummy page for the Slot Booking System dashboard.</p>
-    
-</main>
-
-<style>
-    main {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    h1 {
-        color: #333;
-    }
-
-    p {
-        color: #666;
-    }
-</style>
+{#if page.data.session}
+	<div>
+		<p>ID: {page.data.session.user.id}</p>
+		<p>Email: {page.data.session.user.email}</p>
+		<p>Name: {page.data.session.user.name}</p>
+		<img src={page.data.session.user.image} alt="Profile" />
+		<p>Access Token: {page.data.session.accessToken}</p>
+	</div>
+{:else}
+	<p>Loading...</p>
+{/if}
