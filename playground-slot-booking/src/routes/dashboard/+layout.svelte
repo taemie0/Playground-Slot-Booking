@@ -15,6 +15,7 @@
 />
 
 <!-- Render the child page content -->
-<main>
+<main class="container mx-auto my-auto px-4 bg-base-100 min-h-screen">
+	<!-- Table Section -->
 	<slot />
 </main>

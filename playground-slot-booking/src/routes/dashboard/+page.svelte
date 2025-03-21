@@ -39,13 +39,7 @@
 		hoveredCell = value;
 	};
 
-// 	$effect(() => {
-//     if (showModal) {
-//       document.body.classList.add('modal-open');
-//     } else {
-//       document.body.classList.remove('modal-open');
-//     }
-//   });
+
 </script>
 
 <div class="overflow-x-auto">
@@ -67,7 +61,9 @@
 				{setHoveredCell}
 				enableHover={true}
 			/>
-
+		</tbody>
+	
+		<tbody>   
 			<TableSection
 				title="Outdoor Games"
 				games={bookingData.outdoorGames}
@@ -81,9 +77,7 @@
 	</table>
 </div>
 
-<!-- <Confirmation bind:showModal date={bookingData.date} {selectedCell} /> -->
 
-<div> 
-<Confirmation bind:showModal date={bookingData.date} {selectedCell} />
-</div>
-<!-- <Confirmation bind:showModal date={bookingData.date} {selectedCell} /> -->
+<Confirmation bind:showModal bind:selectedCell date={bookingData.date} />
+
+
