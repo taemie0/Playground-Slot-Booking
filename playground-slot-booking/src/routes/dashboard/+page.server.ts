@@ -14,7 +14,7 @@ export async function load(event) {
     // console.log(userToken);
     // Fetch data from the external API
     const appSciptID = BACKEND_APP_SCRIPT_ID; // SpreadSheet App Script ID
-    console.log(appSciptID);
+    // console.log(appSciptID);
     const apiUrl = `https://script.google.com/macros/s/${appSciptID}/exec`;
 
     const response = await fetch(`${apiUrl}?token=${userToken}`);
@@ -26,7 +26,7 @@ export async function load(event) {
 
     // Parse the JSON response
     const jsonData = await response.json();
-    console.log(jsonData);
+    // console.log(jsonData);
     
     // Return both session and API data
     return {
