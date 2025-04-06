@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
-	import Confirmation from '../components/confirmation.svelte';
-	// /** @type {import('./$types').PageProps} */
+	import Confirmation from './test_confirmation.svelte';
+	// /** @type {import('../$types').PageProps} */
 	let { data } = $props();
 	let sheetData = data.slots;
 	let bookingData = $state({
@@ -12,17 +12,19 @@
 	});
 	let timeSlotsList = $state(['']);
 
-	// 	async function fetchSlots() {
-	// 		const res = await fetch('/page');
-	// 		sheetData = await res.json();
-	// 		console.log('Loaded Slots:', sheetData);  // ✅ Check API response
+	let userToken = $state('');
+	let userName = $state('');
 
-	// if (!sheetData || !sheetData.Date || !sheetData.Date.prevDay) {
-	//   console.error("Invalid data format received:", data);
-	//   return;
-	// }
+	onMount(() => {
+		let cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+			const [name, value] = cookie.split('=');
+			acc[name] = decodeURIComponent(value);
+			return acc;
+		}, {});
 
-	// 	}
+		userName = cookies.userName || 'Not Found';
+		userToken = cookies.userToken || 'Not Found';
+	});
 
 	if (sheetData.Date?.toDay) {
 		bookingData = sheetData.Date.toDay;
@@ -31,16 +33,18 @@
 
 	let menuOpen = false;
 	let hoveredCell = $state();
-	let selectedCell = $state({gameName: '', timeSlot: ''});
+	let selectedCell = $state({ gameName: '', row: 0, column: 0, timeSlot: '' });
 	let showModal = $state(false);
-    
-
-	
 
 	// onMount(() => {
 	// 	fetchSlots();
 	// });
 </script>
+
+<!-- navbar -->
+
+
+<!-- table -->
 
 <div class="overflow-x-auto">
 	<h2 class="mb-4 text-center text-xl font-bold">
@@ -67,14 +71,22 @@
 				{/each}
 			</tr>
 
-			{#each Object.entries(bookingData.indoorGames) as [gameName, slots]}
+			{#each Object.entries(bookingData.indoorGames) as [gameName, slots], rowIndex}
 				<tr class="border">
 					<td class="border p-0 font-bold">{gameName}</td>
 					{#each Object.keys(slots) as index}
 						<td class="border p-0">
 							<button
 								class="btn btn-ghost btn-accent h-full w-full p-2"
-								onclick={() => (showModal = true, selectedCell = { gameName, timeSlot: timeSlotsList[index-1] })}
+								onclick={() => (
+									(showModal = true),
+									(selectedCell = {
+										gameName,
+										timeSlot: timeSlotsList[index - 1],
+										row: rowIndex + 1, // Row index (1-based)
+										column: parseInt(index) + 1 // Column index (1-based)
+									})
+								)}
 								disabled={slots[index].status === 'Not Available'}
 								onmouseover={() => (hoveredCell = `${gameName}-${index}`)}
 								onmouseout={() => (hoveredCell = null)}
@@ -138,3 +150,6 @@
 		</tbody>
 	</table>
 </div>
+
+<!-- Modal -->
+<Confirmation bind:showModal bind:userToken {selectedCell} date={bookingData.date} />
