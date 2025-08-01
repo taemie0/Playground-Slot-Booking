@@ -47,11 +47,20 @@
 	// console.log('Time Slots:', timeSlotsList);
 
 	function handleBook(cellData: any) {
+		// Prevent booking if viewing today's schedule
+		if (activeDay === 'today') {
+			return;
+		}
 		selectedCell = cellData;
 		showModal = true;
 	}
 	let hoveredCell = $state();
 	const setHoveredCell = (value: any) => {
+		// Disable hover effects for today's schedule
+		if (activeDay === 'today') {
+			hoveredCell = null;
+			return;
+		}
 		hoveredCell = value;
 	};
 
@@ -61,95 +70,150 @@
 	}
 </script>
 
-<div class="mb-2 flex items-center justify-center gap-4">
-	<!-- Left Arrow Icon (Today) -->
-	<button
-		class="btn btn-circle btn-outline h-8 w-8 hover:bg-sky-500"
-		onclick={() => (activeDay = 'today')}
-		disabled={activeDay === 'today'}
-		aria-label="Switch to today's bookings"
+<div class="space-y-6">
+	<!-- Day Toggle Section -->
+	<div
+		class="flex items-center justify-center gap-6 mt-4"
 	>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-6 w-6"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			aria-hidden="true"
+		<!-- Today Button -->
+		<button
+			class="btn btn-circle btn-outline transition-all duration-300 {activeDay === 'today'
+				? 'border-sky-500 bg-sky-500 text-white hover:bg-sky-600'
+				: 'hover:border-sky-500 hover:bg-sky-500 hover:text-white'}"
+			onclick={() => toggleDay('today')}
+			disabled={activeDay === 'today'}
+			aria-label="Switch to today's bookings"
 		>
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-		</svg>
-	</button>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+			</svg>
+		</button>
 
-	<!-- Date Display -->
-	<h2 class="text-xl font-bold">
-		<span class="bg-gradient-to-r from-sky-400 to-emerald-600 bg-clip-text text-transparent">
-			Bookings for:
-		</span>
-		{bookingData.date}
-	</h2>
+		<!-- Date Display -->
+		<div class="text-center">
+			<h2
+				class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-2xl font-bold text-transparent"
+			>
+				{bookingData.date}
+			</h2>
+			<p class="mt-1 text-sm text-gray-500">
+				{#if activeDay === 'today'}
+					Today's Schedule (View Only)
+				{:else}
+					Tomorrow's Schedule (Bookable)
+				{/if}
+			</p>
+		</div>
 
-	<!-- Right Arrow Icon (Next Day) -->
-	<button
-		class="btn btn-circle btn-outline h-8 w-8 hover:bg-emerald-500"
-		onclick={() => (activeDay = 'tomorrow')}
-		disabled={activeDay === 'tomorrow'}
-		aria-label="Switch to next day's bookings"
-	>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-6 w-6"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			aria-hidden="true"
+		<!-- Tomorrow Button -->
+		<button
+			class="btn btn-circle btn-outline transition-all duration-300 {activeDay === 'tomorrow'
+				? 'border-emerald-500 bg-emerald-500 text-white hover:bg-emerald-600'
+				: 'hover:border-emerald-500 hover:bg-emerald-500 hover:text-white'}"
+			onclick={() => toggleDay('tomorrow')}
+			disabled={activeDay === 'tomorrow'}
+			aria-label="Switch to tomorrow's bookings"
 		>
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-		</svg>
-	</button>
-</div>
-<div class="mb-2 text-center">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+			</svg>
+		</button>
+	</div>
+
+	<!-- Booking Status Alert -->
 	{#if activeDay === 'today'}
-		<span class="text-xs text-gray-500">You can only book slots for tomorrow</span>
+		<div
+			class="alert alert-info animate-fade-in flex items-center gap-3 rounded-2xl border border-blue-200 bg-blue-50 p-4 text-blue-700"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5 flex-shrink-0"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+				/>
+			</svg>
+			<span>Today's bookings are locked. You can only view the schedule.</span>
+		</div>
 	{:else}
-		<span class="text-xs text-gray-500">Tomorrow</span>
+		<div
+			class="alert alert-success animate-fade-in flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 text-green-700"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5 flex-shrink-0"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+				/>
+			</svg>
+			<span>Tomorrow's slots are available for booking. Click on available slots to book.</span>
+		</div>
 	{/if}
-</div>
-<div class="overflow-x-auto">
-	<!-- <h2 class="mb-4 text-center text-xl font-bold">
-		<span class="bg-gradient-to-r from-sky-400 to-emerald-600 bg-clip-text text-transparent">
-			Bookings for:
-		</span>
-		{bookingData.date}
-	</h2> -->
 
-	<table class="table w-full border-collapse border border-gray-300">
-		<tbody>
-			<TableSection
-				title="Indoor Games"
-				games={bookingData.indoorGames}
-				timeSlots={timeSlotsList}
-				onBook={handleBook}
-				{hoveredCell}
-				{setHoveredCell}
-				enableHover={true}
-			/>
-		</tbody>
-		<!-- Divider Row -->
-		<tbody class="h-4 border-white"> </tbody>
+	<!-- Booking Table Container -->
+	<div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-lg">
+		<div class="overflow-x-auto">
+			<table class="table w-full border-collapse bg-white">
+				<tbody>
+					<TableSection
+						title="Indoor Games"
+						games={bookingData.indoorGames}
+						timeSlots={timeSlotsList}
+						onBook={handleBook}
+						{hoveredCell}
+						{setHoveredCell}
+						enableHover={activeDay === 'tomorrow'}
+					/>
+				</tbody>
 
-		<tbody>
-			<TableSection
-				title="Outdoor Games"
-				games={bookingData.outdoorGames}
-				timeSlots={timeSlotsList}
-				onBook={handleBook}
-				{hoveredCell}
-				{setHoveredCell}
-				enableHover={true}
-			/>
-		</tbody>
-	</table>
+				<!-- Divider -->
+				<tbody>
+					<tr class="bg-gray-50">
+						<td colspan="100" class="h-4 border-0"></td>
+					</tr>
+				</tbody>
+
+				<tbody>
+					<TableSection
+						title="Outdoor Games"
+						games={bookingData.outdoorGames}
+						timeSlots={timeSlotsList}
+						onBook={handleBook}
+						{hoveredCell}
+						{setHoveredCell}
+						enableHover={activeDay === 'tomorrow'}
+					/>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Removed the overlay that was blocking the view for today's schedule -->
+	</div>
 </div>
 
 <!-- <Confirmation bind:showModal bind:selectedCell date={bookingData.date} studentEmail={data.session.user.email} studentName={data.session.user.name} token={data.session.fullToken}/> -->

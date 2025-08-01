@@ -55,7 +55,7 @@
 								row: slot.row,
 								column: slot.col
 							})}
-						disabled={slot.status === 'Not Available' || slot.status === 'Booked'}
+						disabled={slot.status !== 'Available'}
 						onmouseover={enableHover ? () => setHoveredCell(`${gameName}-${indexStr}`) : undefined}
 						onmouseout={enableHover ? () => setHoveredCell(null) : undefined}
 						onfocus={enableHover ? () => setHoveredCell(`${gameName}-${indexStr}`) : undefined}
@@ -64,13 +64,12 @@
 						{#if enableHover && hoveredCell === `${gameName}-${indexStr}`}
 							<p class="font-bold text-white">Book</p>
 						{:else}
-							<span class="text-center">
+								<span
+								class={slot.status?.includes('You')
+									? ' bg-emerald-100 h-full w-full'
+									: 'text-center'}
+							>
 								<p>{slot.status}</p>
-								<!-- {#if slot.bookedBy}
-								<span>({slot.bookedBy})</span>
-								{:else}
-								<span>{slot.status}</span>
-							{/if} -->
 							</span>
 						{/if}
 					</button>

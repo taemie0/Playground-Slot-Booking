@@ -58,6 +58,7 @@
 			}}
 			class="w-full"
 		>
+		Sign In
 			<button
 				slot="submitButton"
 				class="fade-in-delayed rounded-full bg-white bg-opacity-80 px-8 py-3 font-bold text-black transition-transform hover:scale-105 hover:bg-opacity-100"
