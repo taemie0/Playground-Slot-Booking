@@ -8,10 +8,8 @@ import { BACKEND_APP_SCRIPT_ID } from '$env/static/private';
 export async function POST({ request }: { request: Request }) {
 	try {
 		// Parse the incoming request body
-		const {isAdmin, token, row, col}  = await request.json();
+		const { token, row, col}  = await request.json();
 
-		// console.log("Received booking request:", {isAdmin, token, row, col});
-		
 		// Validate required fields
 		if (!row || !col || !token) {
 			return json({ error: 'Missing required fields.' }, { status: 400 });
@@ -31,8 +29,8 @@ export async function POST({ request }: { request: Request }) {
 				token: token,
 				row: row,
 				col: col,
-				action: 'bookSlot', // Action identifier for the backend
-				force: isAdmin ? true : false, 
+				action: 'toggleAvailability', // Action identifier for the backend
+				force: false, 
 			})
 		};
 

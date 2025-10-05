@@ -3,6 +3,8 @@
 		email = $bindable(),
 		name = $bindable(),
 		image = $bindable(),
+		role = $bindable(),
+		dashboardUrl = $bindable(),
 		accessToken = $bindable()
 	} = $props();
 
@@ -41,9 +43,9 @@
 </script>
 
 <main>
-	<div class="navbar bg-base-100 bg-opacity-50 p-4 bg-blend-darken shadow-lg backdrop-blur-sm">
+	<div class="navbar bg-base-100 bg-opacity-50 p-0 bg-blend-darken shadow-lg backdrop-blur-sm">
 		<!-- Navbar Start -->
-		<div class="navbar-start flex flex-row items-center space-x-4">
+		<div class="navbar-start flex flex-row items-center space-x-4 mx-4">
 			<div class="flex items-center space-x-2">
 				<a
 					class="flex items-center space-x-3 transition-transform duration-300 ease-in-out hover:scale-105"
@@ -69,7 +71,7 @@
 		<!-- Navbar Center -->
 		<div class="navbar-center hidden lg:flex">
 			<div class="flex items-center space-x-2">
-				<a href="/dashboard" class="btn btn-ghost text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl">
+				<a href={dashboardUrl} class="btn btn-ghost text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v0M8 5a2 2 0 012 2h4a2 2 0 012-2v0M8 5v0" />
@@ -94,7 +96,7 @@
 		<!-- Navbar End -->
 		<div class="navbar-end flex items-center space-x-4 pr-4">
 			<!-- User Information -->
-			<div class="flex items-center space-x-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-3 border border-blue-100 hover:shadow-md transition-all duration-300 {isSigningOut ? 'opacity-50' : ''}">
+			<div class="flex items-center space-x-3 bg-gradient-to-r from-blue-10 to-indigo-50 rounded-xl p-1 border border-blue-100 hover:shadow-md transition-all duration-300 {isSigningOut ? 'opacity-50' : ''}">
 				<div class="relative">
 					<img
 						src={image || 'https://via.placeholder.com/40'}
