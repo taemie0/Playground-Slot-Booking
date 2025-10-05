@@ -59,9 +59,11 @@ BACKEND_APP_SCRIPT_ID="sdfadf"
 
 Implemented via [Auth.js for SvelteKit](https://authjs.dev/reference/sveltekit).
 Only users with NSU Workspace emails are allowed to sign in. This restriction is enforced via Google authentication configuration.
-```
+
+
 
 ---
+
 
 ## Project Structure
 
@@ -167,4 +169,5 @@ Backend by [@tan7vir](https://github.com/tan7vir)
 * [Google Apps Script](https://developers.google.com/apps-script)
 * [Tanvir’s Slot Booking System](https://github.com/tan7vir/Slot-Booking-System)
 * North South University
+
 
